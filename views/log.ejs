@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+
+    <title>deviceD Log</title>
+
+    <link href="./semantic.min.css" rel="stylesheet">
+    <script src="./jquery-3.1.1.min.js"></script>
+    <script src="./semantic.min.js"></script>
+
+
+    <script>
+    
+    </script>
+    
+    <!--폰트스타일-->
+    <style>
+        h3 {
+            font-size: 1.3rem;
+        }
+
+        p {
+            font-size: 300%;
+            font-weight: 1000;
+        }
+
+        p1 {
+            font-size: 180%;
+            font-weight: 1000;
+        }
+
+    </style>
+    
+</head>
+
+<body>
+    <div class="ui sizer vertical segment">
+        <div class="ui huge header"><%= devicelist[deviceId][3]%> Log</div>
+        <p></p>
+    </div>
+<%
+    if(results[0]!=undefined || results[0]!=null){
+%>
+    <table class="ui striped table">
+        <thead>
+            
+            <tr>
+                <!--키에 따른 열 추가 -->
+                <th>timestamp</th>
+<%
+                var key = Object.keys(results[0]);
+                for(let m in key){
+                    
+                    if(key[m] != null && key[m] !="timestamp"){
+%>
+                        <th><%= key[m]%></th>
+<%
+                    }
+                }
+%>
+            </tr>
+
+<!--로그에 따른 행 추가(value)-->
+<%
+            for(let i in results){
+                var key = Object.keys(results[i])
+                var value = Object.values(results[i])
+%>
+            
+                <tr>
+<%
+                    for(var j=0; j<key.length; j++){
+                        if(key.indexOf() != null){
+%>
+                            <td><%=value[j]%></td>
+<%
+                        }
+                    }   
+%>
+                </tr>
+<%
+            }
+%>
+        </thead>
+        <tbody id="my-tbody"></tbody>
+    </table>
+    
+    
+    <!-- 로그값들 -->
+    <%// console.log(results)%>
+    <!-- 인덱스값 -->
+    <%// console.log("\n\n"+Object.keys(results))%>
+    <!-- 해당 시간대 키, 값 넣기 -->
+    <%// var a = Object.keys(results[15])%>
+    <%// var b = Object.values(results[15])%>
+    <!-- 객체 a 키값-->
+    <%// console.log((a)+"\n\n")%>
+    <!-- 그 시간대 벨류 값 -->
+    <%// console.log((b)+"\n\n")%>
+    <%// for(var i=0; i<a.length; i++){
+      //  console.log(a[i]);
+    //} %>
+
+    <%// console.log(a[0])%>
+    
+    
+    
+<%
+    }else{
+%>
+    <p>값이 존재 하지 않습니다.</p>
+<%
+    }
+%>
+
+    
+
+</body>
+
+</html>

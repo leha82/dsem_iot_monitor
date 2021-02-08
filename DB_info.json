@@ -1,0 +1,16 @@
+[
+  {
+    "host": "localhost",
+    "port": "Port",
+    "user": "DB_Id",
+    "password": "DB_Password",
+    "database": "Database"
+    }, 
+  {
+    "host": "localhost",
+    "port": "Port",
+    "user": "DB_Id",
+    "password": "DB_Password",
+    "database": "Database"
+  }
+]

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+    <title>PC Monitoring</title>
+
+    <link href="./semantic.min.css" rel="stylesheet">
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="./semantic.min.js"></script>
+    <script>
+        //스위치 On/Off 이벤트
+        $(function() {
+            $('#switch').click(function() {
+                if ($(this).is(":checked")) {
+                    $(this).parent().parent().parent().children('.Light_Switch').html('<p1>On</p1>');
+                } else {
+                    $(this).parent().parent().parent().children('.Light_Switch').html('<p1>Off</p1>');
+                }
+
+                if ($("input:checkbox[name=complete_yn]").is(":class") == true) {
+                    $("input:checkbox[name=complete_yn]").prop("checked", false);
+                }
+            });
+        });
+        
+        //스위치 모션 스타일
+        $(document).ready(function() {
+
+            
+            $(".slideBtn > input").change(function(e) {
+                var $cur_switch = $(e.target).parent()
+                var cur_device_id = $cur_switch.attr("id")
+                var cur_actuator = $cur_switch.attr("actuator")
+                console.log(cur_actuator)
+                if ($(this).is(":checked")) {
+                    $(this).parent().addClass("skyblue");
+                    $.get('/on', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){
+                        console.log(res)
+                    })
+                } else {
+                    $(this).parent().removeClass("skyblue");
+                    $.get('/off', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){
+                        console.log(res)
+                    })
+                }
+                if($cur_switch.attr("is_on") == 1){
+                    
+                }
+            });
+            
+            if( $('.slideBtn').attr("is_on") == 1) {
+                $('#switch').click()
+            } else{
+                $('#switch').click()
+                $('#switch').click()
+            }
+        });
+
+        //센서 스위치 솔리드
+        $(function() {
+            $(".sensor").css({
+                "border": "10px solid black"
+            });
+        });
+        
+        //7초마다 리로드
+//        setTimeout(function(){
+//            location.reload();
+//            console.log("reload");
+//        }, 7000);
+    </script>
+
+    <!--가운데 정렬-->
+    <style>
+        #div3 {
+            text-align: center;
+        }
+    </style>
+
+    <!--폰트스타일-->
+    <style>
+        h3 {
+            font-size: 1.3rem;
+        }
+
+        p {
+            font-size: 300%;
+            font-weight: 1000;
+        }
+
+        p1 {
+            font-size: 180%;
+            font-weight: 1000;
+        }
+    </style>
+
+    <!--토글키 스타일-->
+    <style>
+        .slideBtn {
+            position: relative;
+            display: block;
+            width: 60px;
+            height: 34px;
+            background: #ccc;
+        }
+
+        .slideBtn>span {
+            position: absolute;
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background: white;
+            transition: .4s;
+            cursor: pointer;
+        }
+
+        .slideBtn>input:checked+span {
+            transform: translateX(26px);
+        }
+
+        .slideBtn>input {
+            opacity: 0;
+        }
+
+        .skyblue {
+            background: skyblue;
+        }
+    </style>
+
+    <!--토글키 정렬-->
+    <style type="text/css">
+        .vi {
+            border-radius: 5px;
+            border-width: 2px;
+            margin-bottom: 0px;
+            padding: 15px;
+            width: 65px
+        }
+
+        .align-center {
+            text-align: center;
+        }
+
+        .align-justify {
+            text-align: justify;
+        }
+
+        .margin-center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+    </style>
+
+    <!--양 사이드 간격 두기-->
+    <style>
+        body {
+            padding: 1rem;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <p>Device: <%="["+deviceId+"]"+devicelist[deviceId][3]%></p>
+    <p1>PC Monitoring</p1>
+
+    <div style="border:10px solid black;"> 
+<%
+        if(Object.keys(results).indexOf("humidity") != -1) {
+%>
+        <div id="div3" style="height: auto; width: 100%;">
+            <div2 class="humidity" style="position: relative;">
+                <img src="images/humidity2.png" alt="" class="sensor">
+                <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
+                    <p1>습도: <%=results.humidity%></p1>
+                </div2>
+            </div2>
+        </div>
+<% 
+        }
+        if(Object.keys(results).indexOf("temperature") != -1) {
+%>
+        <div id="div3" style="height: auto; width: 100%;">
+            <div2 style="position: relative;">
+                <img src="images/temperature_white2.png" alt="" class="sensor">
+                <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
+                    <p1>온도: <%=results.temperature%></p1>
+                </div2>
+            </div2>
+        </div>
+
+<% 
+        }
+        if(Object.keys(results).indexOf("light") != -1) {
+%>
+        <div id="div3" style="height: auto; width: 100%;">
+            <div2 style="position: relative;">
+                <img src="images/Illuminance2.png" alt="" class="sensor">
+                <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
+                    <p1>조도: <%=results.light%></p1>
+                </div2>
+            </div2>
+        </div>
+        
+<% 
+        }
+        if(Object.keys(results).indexOf("co2_gas") != -1) {
+%>
+        <div id="div3" style="height: auto; width: 100%;">
+            <div2 style="position: relative;">
+                <img src="images/co2_gas_black_2.png" alt="" class="sensor">
+                <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
+                    <p1>CO2: <%=results.co2_gas%></p1>
+                </div2>
+            </div2>
+        </div>
+        
+<% 
+        }
+        if(Object.keys(results).indexOf("dust") != -1) {
+%>
+        <div id="div3" style="height: auto; width: 100%;">
+            <div2 style="position: relative;">
+                <img src="images/fine_dust_black2.png" alt="" class="sensor">
+                <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
+                    <p1>미세먼지:<br> <%=results.dust%></p1>
+                </div2>
+            </div2>
+        </div>
+        
+<% 
+        }
+        if(Object.keys(results).indexOf("led") != -1) {
+%>
+        <div id="div3" style="height: auto; width: 100%;">
+            <div2 style="position: relative;">
+                <img src="images/LED2.png" alt="" class="sensor">
+                <div2 style="left: -65px; width: 450px; bottom: 0px; font-size: 1.8em; font-weight: bold; position: absolute;">
+                    <p class="SwiTxt"></p>
+                    <p1>Status: </p1>
+                    <span class='Light_Switch'>
+                        <p1></p1>
+                    </span>
+                    <div id="" class="margin-center vi">
+                        <label id="<%= deviceId %>" class="slideBtn" actuator="led" is_on="<%=item[0]['led']%>">
+                            <input type="checkbox" id='switch' name="complete_yn"><span></span>
+                        </label>
+                    </div>
+                </div2>
+            </div2>
+        </div>
+<% 
+        }
+%>
+    </div>
+    
+    
+    <!--  데이터 확인용  -->
+<%
+//    for (let i in devicelist){
+//        console.log(i);
+//            for(let j in devicelist[i]){
+//                for(let k in devicelist[i][j]){
+//                        if(j==2){
+//                        for(let m in devicelist[i][j][k]){
+//                            
+//                            console.log((m) +"     " + i + "     " + j + "     " +k+ "     " +m+"  번째");
+//                            console.log(devicelist[i][j][k][m] +"     " + i + "     " + j + "     " +k+ "     " +m+"  번째" );
+//                        }
+//                    }
+//                    console.log(devicelist[i][j][k] +"     " + i + "     " + j + "     " +k+"  번째");
+//                }
+//                console.log("-----------------------"+ j +"-------------------");
+//            }
+//        console.log("==================="+i+"번째 디바이스========================\n\n");
+//        }
+%>
+
+
+<%
+    console.log("item: ", item[0]['led'])
+//console.log(devicelist[5][3])
+//console.log("디바 리스트:", devicelist)
+//console.log("디바 아이디:", deviceId)
+//    console.log("\n\n=============================================\n현재 페이지의 디바이스 아이디: "+deviceId+ "\n=============================================\n")
+//    console.log("results: ",results)
+//    console.log("키값:"+Object.keys(results)+"\n 벨류값:"+Object.values(results));
+//    console.log("\n\n\n\n"+results.humidity);
+//    console.log("\n\n\n\n"+Object.keys(results).indexOf("codfdffddfd"));
+%>
+    
+    
+</body>
+
+</html>
