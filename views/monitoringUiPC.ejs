@@ -12,6 +12,7 @@
     <script src="jquery-3.1.1.min.js"></script>
     <script src="./semantic.min.js"></script>
     <script>
+        is_start = true
         //스위치 On/Off 이벤트
         $(function() {
             $('#switch').click(function() {
@@ -20,37 +21,27 @@
                 } else {
                     $(this).parent().parent().parent().children('.Light_Switch').html('<p1>Off</p1>');
                 }
-
-                if ($("input:checkbox[name=complete_yn]").is(":class") == true) {
-                    $("input:checkbox[name=complete_yn]").prop("checked", false);
+                var $cur_switch = $(this).parent()
+                var cur_device_id = $cur_switch.attr("id")
+                var cur_actuator = $cur_switch.attr("actuator")
+                console.log("액추에이터: ", cur_actuator)
+                if ($(this).is(":checked")) {
+                    $(this).parent().addClass("skyblue");
+                    
+                    if(!is_start){
+                        $.get('/on', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){})
+                    }
+                } else {
+                    $(this).parent().removeClass("skyblue");
+                    if(!is_start){
+                        $.get('/off', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){})
+                    }
                 }
             });
         });
         
         //스위치 모션 스타일
         $(document).ready(function() {
-
-            
-            $(".slideBtn > input").change(function(e) {
-                var $cur_switch = $(e.target).parent()
-                var cur_device_id = $cur_switch.attr("id")
-                var cur_actuator = $cur_switch.attr("actuator")
-                console.log(cur_actuator)
-                if ($(this).is(":checked")) {
-                    $(this).parent().addClass("skyblue");
-                    $.get('/on', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){
-                        console.log(res)
-                    })
-                } else {
-                    $(this).parent().removeClass("skyblue");
-                    $.get('/off', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){
-                        console.log(res)
-                    })
-                }
-                if($cur_switch.attr("is_on") == 1){
-                    
-                }
-            });
             
             if( $('.slideBtn').attr("is_on") == 1) {
                 $('#switch').click()
@@ -58,8 +49,8 @@
                 $('#switch').click()
                 $('#switch').click()
             }
+            is_start = false
         });
-
         //센서 스위치 솔리드
         $(function() {
             $(".sensor").css({
@@ -67,7 +58,7 @@
             });
         });
         
-        //7초마다 리로드
+//        7초마다 리로드
         setTimeout(function(){
             location.reload();
             console.log("reload");
@@ -86,12 +77,10 @@
         h3 {
             font-size: 1.3rem;
         }
-
         p {
             font-size: 300%;
             font-weight: 1000;
         }
-
         p1 {
             font-size: 180%;
             font-weight: 1000;
@@ -107,7 +96,6 @@
             height: 34px;
             background: #ccc;
         }
-
         .slideBtn>span {
             position: absolute;
             height: 26px;
@@ -118,15 +106,12 @@
             transition: .4s;
             cursor: pointer;
         }
-
         .slideBtn>input:checked+span {
             transform: translateX(26px);
         }
-
         .slideBtn>input {
             opacity: 0;
         }
-
         .skyblue {
             background: skyblue;
         }
@@ -141,20 +126,16 @@
             padding: 15px;
             width: 65px
         }
-
         .align-center {
             text-align: center;
         }
-
         .align-justify {
             text-align: justify;
         }
-
         .margin-center {
             margin-left: auto;
             margin-right: auto;
         }
-
     </style>
 
     <!--양 사이드 간격 두기-->
@@ -162,7 +143,6 @@
         body {
             padding: 1rem;
         }
-
     </style>
 
 </head>
@@ -195,7 +175,6 @@
                 </div2>
             </div2>
         </div>
-
 <% 
         }
         if(Object.keys(results).indexOf("light") != -1) {
