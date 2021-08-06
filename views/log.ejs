@@ -13,7 +13,10 @@
 
 
     <script>
-    
+        //뒤로가기
+        function goBack(){
+           window.history.back();
+      }
     </script>
     
     <!--폰트스타일-->
@@ -37,12 +40,14 @@
 </head>
 
 <body>
+    
+    
     <div class="ui sizer vertical segment">
-        <div class="ui huge header"><%= devicelist[deviceId][3]%> Log</div>
+        <div class="ui huge header"><%= logData.name%> Log <button type="button" class="ui button" onclick=goBack()>Back </button></div>
         <p></p>
     </div>
 <%
-    if(results[0]!=undefined || results[0]!=null){
+    if(logData.log !=undefined || logData.log !=null){
 %>
     <table class="ui striped table">
         <thead>
@@ -51,7 +56,7 @@
                 <!--키에 따른 열 추가 -->
                 <th>timestamp</th>
 <%
-                var key = Object.keys(results[0]);
+                var key = Object.keys(logData.log[0]);
                 for(let m in key){
                     
                     if(key[m] != null && key[m] !="timestamp"){
@@ -65,9 +70,9 @@
 
 <!--로그에 따른 행 추가(value)-->
 <%
-            for(let i in results){
-                var key = Object.keys(results[i])
-                var value = Object.values(results[i])
+            for(let i in logData.log){
+                var key = Object.keys(logData.log[i])
+                var value = Object.values(logData.log[i])
 %>
             
                 <tr>
@@ -75,7 +80,13 @@
                     for(var j=0; j<key.length; j++){
                         if(key.indexOf() != null){
 %>
-                            <td><%=value[j]%></td>
+                            <td>
+                                <% if(j == 0) { %>
+                                <%= new Date(value[j]);%>
+                                <%}else { %>
+                                <%= value[j]%>
+                                <% } %>
+                            </td>
 <%
                         }
                     }   
@@ -87,7 +98,6 @@
         </thead>
         <tbody id="my-tbody"></tbody>
     </table>
-    
     
     <!-- 로그값들 -->
     <%// console.log(results)%>

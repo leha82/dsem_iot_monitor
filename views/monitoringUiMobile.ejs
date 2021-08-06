@@ -150,6 +150,8 @@
 <body>
     <p>Device: <%="["+deviceId+"]"+devicelist[deviceId][3]%></p>
     <p1>Mobile Monitoring</p1>
+
+    <div style="border:10px solid black;"> 
 <%
         if(Object.keys(results).indexOf("humidity") != -1) {
 %>
@@ -157,7 +159,7 @@
             <div2 class="humidity" style="position: relative;">
                 <img src="images/humidity2.png" alt="" class="sensor">
                 <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
-                    <p1>습도: <%=results.humidity%></p1>
+                    <p1>humidity: <%=results.humidity%></p1>
                 </div2>
             </div2>
         </div>
@@ -168,8 +170,8 @@
         <div id="div3" style="height: auto; width: 100%;">
             <div2 style="position: relative;">
                 <img src="images/temperature_white2.png" alt="" class="sensor">
-                <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
-                    <p1>온도: <%=results.temperature%></p1>
+                <div2 style="left: -65px; width: 450px; bottom: 10px; font-size: 1.8em; font-weight: bold; position: absolute;">
+                    <p1>temperature:<br><%=results.temperature%></p1>
                 </div2>
             </div2>
         </div>
@@ -181,7 +183,7 @@
             <div2 style="position: relative;">
                 <img src="images/Illuminance2.png" alt="" class="sensor">
                 <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
-                    <p1>조도: <%=results.light%></p1>
+                    <p1>light: <%=results.light%></p1>
                 </div2>
             </div2>
         </div>
@@ -194,7 +196,7 @@
             <div2 style="position: relative;">
                 <img src="images/co2_gas_black_2.png" alt="" class="sensor">
                 <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
-                    <p1>CO2: <%=results.co2_gas%></p1>
+                    <p1>co2_gas: <%=results.co2_gas%></p1>
                 </div2>
             </div2>
         </div>
@@ -207,7 +209,7 @@
             <div2 style="position: relative;">
                 <img src="images/fine_dust_black2.png" alt="" class="sensor">
                 <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
-                    <p1>미세먼지:<br> <%=results.dust%></p1>
+                    <p1>dust:<br> <%=results.dust%></p1>
                 </div2>
             </div2>
         </div>
@@ -221,7 +223,7 @@
                 <img src="images/LED2.png" alt="" class="sensor">
                 <div2 style="left: -65px; width: 450px; bottom: 0px; font-size: 1.8em; font-weight: bold; position: absolute;">
                     <p class="SwiTxt"></p>
-                    <p1>Status: </p1>
+                    <p1>led: </p1>
                     <span class='Light_Switch'>
                         <p1></p1>
                     </span>

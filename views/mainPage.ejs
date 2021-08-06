@@ -33,11 +33,13 @@
                 });
             };
         }
-
     </script>
 
     <!--토글키 스타일-->
     <style>
+        html, body {
+         padding: 0px 400px 0px 400px;
+      }
         .slideBtn {
             position: relative;
             display: block;
@@ -89,60 +91,75 @@
     <table class="ui striped table">
         <thead>
             <tr>
-                <th>Device</th>
-                <th>Monitoring</th>
-                <th>Sensor List</th>
-                <th>Actuator List</th>
+                <th style="width:50px;">ID</th>
+                <th style="width:200px">Device</th>
+                <th style="width:200px">Sensor List</th>
+<!--                <th>Actuator List</th>-->
+                <th style="width:200px; text-align: center; padding-right: 33px;">Monitoring</th>
             </tr>
 <%
     var count=1;
     for (let device in devicelist){
         if(devicelist[device] != undefined || devicelist[device] != null){
+
 %>
             <tr>
                 <td>
+                        <h10><strong><%=device%></strong></h10>
+                </td>
+                <td>
 <!--                <a href="tempA.html"><%= '[' + device + '] ' + devicelist[device][3]%></a>-->
-                    <form action="log" method="get"><input type='hidden' name= "id" value="<%=device%>"><input type="submit" value="<%= '[' + count++ + '] ' + devicelist[device][3]%>" class="ui button"></form>
+<!--                    <form action="log" method="get"><input type='hidden' name= "id" value="<%=device%>"><input type="submit" value="<%= '[' + count++ + '] ' + devicelist[device][3]%>" class="ui button"></form> -->
+                        <h10><%=devicelist[device].device_name%></h10>
                 </td>
                 
-                <td>
+                <td style="text-align: left;">
+                    <h10>
+                        <% let str = '';%>
+<%                      for(let row in devicelist[device]) {                    %> 
+<%                          if(row.includes('sensor')) {                        %>
+<%                             str += devicelist[device][row] + ',' + ' ';      %>
+<%                          }    }                                              %>
+<%                      str = str.slice(0,-2);                                  %>
+<%=                     str                                                     %>
+</h10>
+                </td>
+                <td style="text-align: center;">
 <!--                <a href=""><button class="ui button">Monitoring</button></a>-->                
-                    <form class="navi" action="" method="get">
+                    <form class="navi" action="" method="get" style="float: left; margin: 0;">
                         <input type='hidden' name= "id" value="<%=device%>">
                         <input type="submit" value="Monitoring" class="ui button">
                     </form>
+                    <form action="log" method="get"><input type='hidden' name= "id" value="<%=device%>"><input type="submit" value="Log" class="ui button"></form>
                 </td>
-                <td>
-<%=  
-                devicelist[device][0].filter(function(el) {
-                    return el != null
-                }).toString().replace(/,/g, ', '); 
-%>
-                </td>
+<!--
                 <td>
                     <select id="actuator" class="ui fluid search dropdown">
                         <option value="">Actuator</option>
+-->
 <%
-                    for(let actuator in devicelist[device][2]) {
-                        if(devicelist[device][2][actuator] != null) {
-                            let actuator_key = Object.keys(devicelist[device][2][actuator])
-                            let actuator_val = Object.values(devicelist[device][2][actuator])
-                            if(actuator_val=="") {
-                                actuator_val = "null"
-                            }
-%>
-                        <option id="options" value="<%= actuator_val%>"><%= actuator_key %></option>
+//                    for(let actuator in devicelist[device][2]) {
+//                        if(devicelist[device][2][actuator] != null) {
+//                            let actuator_key = Object.keys(devicelist[device][2][actuator])
+//                            let actuator_val = Object.values(devicelist[device][2][actuator])
+//                            if(actuator_val=="") {
+//                                actuator_val = "null"
+//                            }
+//%>
+<!--                        <option id="options" value="<%= //actuator_val%>"><%=// actuator_key %></option>-->
 <%
-                        }
-                    } 
+//                        }
+//                    } 
 %>
+<!--
                     </select>
                     <script>
                         $('.ui.dropdown').dropdown('hidden');
 
                     </script>
+-->
                    
-                </td>
+<!--                </td>-->
             </tr>
 <%
             }
@@ -150,6 +167,7 @@
 %>
         </thead>
         <!--        <tbody id="my-tbody"></tbody>-->
+        
     </table>
     <%//console.log(devicelist[1])%>
     <%//console.log("현재 불러와진 deviceId: " + Object.keys(devicelist))%>
