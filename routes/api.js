@@ -16,7 +16,6 @@ router.get('/devices', function (req, res) {
             console.log(err.stack);
             return;
         }
-        // console.log("deviceList: ", devicelist);
         res.end(devicelist);
     });
 });
@@ -36,7 +35,7 @@ router.get('/dsemdr-device-sesnsors-monitor/:id', function (req, res) {
             dbConnect.sensor_model_pool.query("SELECT * FROM " + table_name + " ORDER BY id DESC limit 1", function (er, item) {
                 var timestamp = item[0].timestamp;
                 dbConnect.getNowData(device_Id, function (err, results) {
-                    console.log("디바이스 이름: ", device_name);
+                    console.log("디바이스s 이름: ", device_name);
                     console.log("아이템 아이디: ", device_Id);
                     console.log("results: ", results);
                     console.log("time: ", timestamp);
@@ -66,9 +65,28 @@ router.get('/log/device/:id', function (req, res) {
 router.get('/recent-data/device/:id', function (req, res) {
     var device_Id = req.params.id;
     dbConnect.getRecentData(device_Id, function(err, sensorData){
+        if(err){
+            console.log("에러: ", err.stack);
+            return;
+        }
         console.log("sensorData: ", sensorData)
         res.end(sensorData);
-    }); 
+    });
+});
+
+router.post('/actuator/:id/actuator/:actuator/status/:status', function(req, res){
+    var id = req.params.id;
+    var actuator = req.params.actuator;
+    var status = req.params.status;
+    dbConnect.getActuator(id, actuator, status, function(err, results){
+        if(err){
+            console.log("에러: ", err.stack);
+            return;
+        }
+        res.send(200);
+        return;
+        
+    });
 });
 
 module.exports = router;

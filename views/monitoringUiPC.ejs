@@ -155,11 +155,14 @@
 
 <body>
     <p>Device: <%="[" + sensorData.id + "]" + sensorData.name%><button style="height:50px; font-size: 1.3rem;" type="button" class="ui button" onclick=goBack()>Back </button></p>
+    
+    
+    
+<%
+        if(sensorData.data != undefined  && sensorData.data != null){
+%>
     <p1>PC Monitoring</p1><br>
     <p1 style="text-align: center;">Time: <%= new Date(sensorData.data.timestamp) %></p1>
-    
-    
-
     <div style="border:10px solid black;"> 
 <%
         if(Object.keys(sensorData.data).indexOf("temperature") != -1) {
@@ -225,11 +228,36 @@
         
 <% 
         }
-        //if(Object.keys(results).indexOf("led") != -1) {
+        if(Object.keys(sensorData.data).indexOf("led") != -1) {
 %>
-
+        <div id="div3" style="height: auto; width: 100%;">
+            <div2 style="position: relative;">
+                <img src="images/LED2.png" alt="" class="sensor">
+                <div2 style="left: -65px; width: 450px; bottom: 0px; font-size: 1.8em; font-weight: bold; position: absolute;">
+                    <p class="SwiTxt"></p>
+                    <p1>led: </p1>
+                    <span class='Light_Switch'>
+                        <p1></p1>
+                    </span>
+                    <div id="" class="margin-center vi">
+                        <label id="<%= sensorData.data.led %>" class="slideBtn" actuator="led" is_on="<%=sensorData.data.led%>">
+                            <input type="checkbox" id='switch' name="complete_yn"><span></span>
+                        </label>
+                    </div>
+                </div2>
+            </div2>
+        </div>
+<%
+        } 
+%>
     </div>
-    
+<% 
+    } else {
+%>      <hr>
+        <p> 값이 존재 하지 않습니다. <p>
+<%    
+    }
+%>     
 
     
     

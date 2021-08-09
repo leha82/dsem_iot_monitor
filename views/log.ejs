@@ -47,7 +47,9 @@
         <p></p>
     </div>
 <%
-    if(logData.log !=undefined || logData.log !=null){
+    if(logData.log.length != 0){
+        // console.log("안들어가지 ㅇㅇ");
+        // console.log(typeof(logData.log));
 %>
     <table class="ui striped table">
         <thead>
@@ -98,28 +100,8 @@
         </thead>
         <tbody id="my-tbody"></tbody>
     </table>
-    
-    <!-- 로그값들 -->
-    <%// console.log(results)%>
-    <!-- 인덱스값 -->
-    <%// console.log("\n\n"+Object.keys(results))%>
-    <!-- 해당 시간대 키, 값 넣기 -->
-    <%// var a = Object.keys(results[15])%>
-    <%// var b = Object.values(results[15])%>
-    <!-- 객체 a 키값-->
-    <%// console.log((a)+"\n\n")%>
-    <!-- 그 시간대 벨류 값 -->
-    <%// console.log((b)+"\n\n")%>
-    <%// for(var i=0; i<a.length; i++){
-      //  console.log(a[i]);
-    //} %>
-
-    <%// console.log(a[0])%>
-    
-    
-    
 <%
-    }else{
+    } else{
 %>
     <p>값이 존재 하지 않습니다.</p>
 <%
