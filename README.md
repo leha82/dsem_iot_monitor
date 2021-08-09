@@ -1,4 +1,4 @@
-# 2020_Seminar_WebUi
+# dsem_iot_monitor
 
 [Window] 서버 실행방법
 ===========
