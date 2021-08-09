@@ -39,7 +39,7 @@ Brackets: http://brackets.io/
 
 ### 2. 클론폴더 경로로 폴더 열기   
 
-### 3. server.js 파일 안에서 서버 수정 가능   
+### 3. server.js 파일 안에서 서버 관리   
 app.set('port', process.env.PORT || 10203); --> 여기서 포트 번호 변경 가능      
 #### 3-1 예시) 포트번호를 14000으로 바꾸고 싶을때   
 ex) app.set('port', process.env.PORT || 14000);   
