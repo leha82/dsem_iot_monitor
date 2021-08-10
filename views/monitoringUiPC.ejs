@@ -13,24 +13,6 @@
     <script src="../semantic.min.js"></script>
     
     <script>
-//        var tes = $.post('/actuator/:id/actuator/:actuator/status/:status', 5, 'temp', 7, (err, results)=>{
-//           
-//            
-//            if(err){
-//                console.log("안되는이유: ",err.stack);
-//                return;
-//            }
-//            cosnsole.log("들어왔다ㅏㅏㅏㅏ: ", results);
-//            return;
-//        });
-//        
-//        tes();
-        
-//        device_id = req.query.deviceId
-//        actuator = req.query.actuator
-//        status = req.query.status
-        
-      
         function gameOn(){
             $.post('/actuator_control', {deviceId:5, actuator:"temp", status:7});
         }
