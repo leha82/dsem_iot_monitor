@@ -13,9 +13,10 @@
     <script src="../semantic.min.js"></script>
     
     <script>
-        function gameOn(){
-            $.post('/actuator_control', {deviceId:5, actuator:"temp", status:7});
-        }
+        // 액추에이터 제어할 함수
+//        function temp(){
+//            $.post('/actuator_control', {deviceId:5, actuator:"temp", status:1});
+//        }
         
         
         is_start = true
@@ -35,12 +36,12 @@
                     $(this).parent().addClass("skyblue");
                     
                     if(!is_start){
-                        $.get('/on', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){})
+                        $.post('/actuator_control', {deviceId:cur_device_id, actuator:cur_actuator, status:1});
                     }
                 } else {
                     $(this).parent().removeClass("skyblue");
                     if(!is_start){
-                        $.get('/off', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){})
+                        $.post('/actuator_control', {deviceId:cur_device_id, actuator:cur_actuator, status:0});
                     }
                 }
             });
@@ -161,14 +162,9 @@
 
 <body>
     
-    <form action="actuator_control" method="post">
-        <input type="text" id="deviceId" name="deviceId" value="5" deviceId="5">
-        <input type="text" id="actuator" name="actuator" value="temp" actuator="temp">
-        <input type="text" id="status" name="status" value="5" status=7>
-        <button type="submit">전송</button>
-    </form>
     
-    <button onclick=gameOn()>자바스크립트로 보내기</button>
+    
+    
     
     <p>Device: <%="[" + sensorData.id + "]" + sensorData.name%><button style="height:50px; font-size: 1.3rem;" type="button" class="ui button" onclick=goBack()>Back </button></p>
     
@@ -256,7 +252,7 @@
                         <p1></p1>
                     </span>
                     <div id="" class="margin-center vi">
-                        <label id="<%= sensorData.data.led %>" class="slideBtn" actuator="led" is_on="<%=sensorData.data.led%>">
+                        <label id="<%= sensorData.id %>" class="slideBtn" actuator="led" is_on="<%=sensorData.data.led%>">
                             <input type="checkbox" id='switch' name="complete_yn"><span></span>
                         </label>
                     </div>

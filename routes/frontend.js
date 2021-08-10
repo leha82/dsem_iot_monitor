@@ -75,6 +75,23 @@ router.get("/pc", function (req, res) {
     });
 });
 
+router.post("/actuator_control", (req, res)=>{
+    device_id = req.body.deviceId;
+    actuatorName = req.body.actuator;
+    actuatorstatus = req.body.status;
+    
+    request.post(address + "/actuator_control/" + device_id + "/actuator/" + actuatorName + "/status/" + actuatorstatus, function(error, response, results){
+        if(!error&&response.statusCode==200){
+            console.log("post 전송 성공");
+            return res.send(200);
+        }
+        else{
+            console.log("API에러: ", response.statusCode);
+            return;
+        }
+    });
+});
+
 router.get("/log", function (req, res) {
     deviceId = req.query.id || req.body.id;
     request(address + "/log/device/" + deviceId, function(error, response, logForm){
@@ -92,65 +109,4 @@ router.get("/log", function (req, res) {
         }
     });
 });
-
-router.get("/on", function (req, res) {
-    actuator = req.query.actuator
-    device_id = req.query.deviceId
-
-
-    dbConnect.deviceRegistry_pool.query('SELECT item_id, table_name FROM device_list', function (err, results, fields) {
-
-        results = results.reduce((result, item, index, array) => {
-            result[item.item_id] = item.table_name
-            return result
-        }, {})
-
-        console.log('inside dict - res : ', results[device_id])
-        dbConnect.sensor_model_pool.query('INSERT INTO ' + results[device_id] + '_act (actuator, status, timestamp) VALUES(?, 1, NOW())', actuator);
-
-        res.send(200)
-    })
-
-})
-
-router.get("/off", function (req, res) {
-    actuator = req.query.actuator
-    device_id = req.query.deviceId
-
-    dbConnect.deviceRegistry_pool.query('SELECT item_id, table_name FROM device_list', function (err, results, fields) {
-
-        results = results.reduce((result, item, index, array) => {
-            result[item.item_id] = item.table_name
-            return result
-        }, {})
-
-        console.log('inside dict - res : ', results[device_id])
-        dbConnect.sensor_model_pool.query('INSERT INTO ' + results[device_id] + '_act (actuator, status, timestamp) VALUES(?, 0, NOW())', actuator);
-        res.send(200);
-    })
-})
-
-// 엑추에이터 제어 새버전 - 수정중
-router.post("/actuator_control", (req, res)=>{
-    device_id = req.body.deviceId;
-    actuatorName = req.body.actuator;
-    actuatorstatus = req.body.status;
-    console.log("device_id: ", device_id);
-    console.log("actuator: ", actuatorName);
-    console.log("status: ", actuatorstatus);
-    request.post(address + "/actuator_control/" + device_id + "/actuator/" + actuatorName + "/status/" + actuatorstatus, function(error, response, results){
-        if(!error&&response.statusCode==200){
-            console.log("post 전송 성공");
-            return results;
-        }
-        else{
-            console.log("API에러: ", response.statusCode);
-            return;
-        }
-    });
-});
-
-
-
-
 module.exports = router;
