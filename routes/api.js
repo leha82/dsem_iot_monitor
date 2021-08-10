@@ -74,7 +74,7 @@ router.get('/recent-data/device/:id', function (req, res) {
     });
 });
 
-router.post('/actuator/:id/actuator/:actuator/status/:status', function(req, res){
+router.post('/actuator_control/:id/actuator/:actuator/status/:status', function(req, res){
     var id = req.params.id;
     var actuator = req.params.actuator;
     var status = req.params.status;

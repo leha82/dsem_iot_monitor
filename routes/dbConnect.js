@@ -141,4 +141,4 @@ module.exports.deviceRegistry_pool = deviceRegistry_pool;
 module.exports.getDeviceInfo = getDeviceInfo;
 module.exports.getLogData = getLogData;
 module.exports.getRecentData = getRecentData;
-module.exports.getTemp = getActuator;
+module.exports.getActuator = getActuator;

@@ -11,7 +11,31 @@
     <link href="../semantic.min.css" rel="stylesheet">
     <script src="../jquery-3.1.1.min.js"></script>
     <script src="../semantic.min.js"></script>
+    
     <script>
+//        var tes = $.post('/actuator/:id/actuator/:actuator/status/:status', 5, 'temp', 7, (err, results)=>{
+//           
+//            
+//            if(err){
+//                console.log("안되는이유: ",err.stack);
+//                return;
+//            }
+//            cosnsole.log("들어왔다ㅏㅏㅏㅏ: ", results);
+//            return;
+//        });
+//        
+//        tes();
+        
+//        device_id = req.query.deviceId
+//        actuator = req.query.actuator
+//        status = req.query.status
+        
+      
+        function gameOn(){
+            $.post('/actuator_control', {deviceId:5, actuator:"temp", status:7});
+        }
+        
+        
         is_start = true
         //스위치 On/Off 이벤트
         $(function() {
@@ -29,12 +53,12 @@
                     $(this).parent().addClass("skyblue");
                     
                     if(!is_start){
-                        $.get('/deviceSensorsMonitoring/on', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){})
+                        $.get('/on', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){})
                     }
                 } else {
                     $(this).parent().removeClass("skyblue");
                     if(!is_start){
-                        $.get('/deviceSensorsMonitoring/off', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){})
+                        $.get('/off', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){})
                     }
                 }
             });
@@ -64,11 +88,11 @@
       }
         
         //7초마다 리로드
-        setTimeout(function(){
-            $("monitoringUI")
-            location.reload();
-            console.log("reload");
-        }, 7000);
+//        setTimeout(function(){
+//            $("monitoringUI")
+//            location.reload();
+//            console.log("reload");
+//        }, 7000);
     </script>
 
     <!--가운데 정렬-->
@@ -154,6 +178,16 @@
 </head>
 
 <body>
+    
+    <form action="actuator_control" method="post">
+        <input type="text" id="deviceId" name="deviceId" value="5" deviceId="5">
+        <input type="text" id="actuator" name="actuator" value="temp" actuator="temp">
+        <input type="text" id="status" name="status" value="5" status=7>
+        <button type="submit">전송</button>
+    </form>
+    
+    <button onclick=gameOn()>자바스크립트로 보내기</button>
+    
     <p>Device: <%="[" + sensorData.id + "]" + sensorData.name%><button style="height:50px; font-size: 1.3rem;" type="button" class="ui button" onclick=goBack()>Back </button></p>
     
     

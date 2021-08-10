@@ -34,7 +34,6 @@ var errorHandler = expressErrorHandler({
 });
 
 // public 폴더를 static으로 오픈
-app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("public", static(path.join(__dirname, "public")));
 

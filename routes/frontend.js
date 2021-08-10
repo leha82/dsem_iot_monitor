@@ -7,6 +7,7 @@ var bodyParser = require("body-parser");
 
 // json타입으로 파싱하게 설정
 router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({extended:true}));
 
 // request 모듈 불러오기
 var request = require('request');
@@ -14,7 +15,7 @@ var request = require('request');
 const dbConnect = require("./dbConnect.js");
 
 // 서버 주소
-const address = "http://203.234.62.144:10203";
+const address = "http://203.234.62.113:10203";
 
 router.get("", function (req, res) {
     request(address + "/devices", function(error, response, deviceForm){
@@ -130,17 +131,26 @@ router.get("/off", function (req, res) {
 })
 
 // 엑추에이터 제어 새버전 - 수정중
-router.post("/엑추에이터 제어", (req,res)=>{
-    device_id = req.query.deviceId
-    actuator = req.query.actuator
-    status = req.query.status
-    request(address + "/actuator/" + device_id + "/actuator/" + actuator + "/status/" + status, function(error, response){
-        if(error){
-            console.log("API에러: ", error.stack);
+router.post("/actuator_control", (req, res)=>{
+    device_id = req.body.deviceId;
+    actuatorName = req.body.actuator;
+    actuatorstatus = req.body.status;
+    console.log("device_id: ", device_id);
+    console.log("actuator: ", actuatorName);
+    console.log("status: ", actuatorstatus);
+    request.post(address + "/actuator_control/" + device_id + "/actuator/" + actuatorName + "/status/" + actuatorstatus, function(error, response, abc){
+        if(!error&&response.statusCode==200){
+            console.log("post 전송 성공");
+            return abc;
+        }
+        else{
+            console.log("API에러: ", response.statusCode);
             return;
         }
-        return response;
-    })
-})
+    });
+});
+
+
+
 
 module.exports = router;
