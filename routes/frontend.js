@@ -126,7 +126,7 @@ router.get("/off", function (req, res) {
 
         console.log('inside dict - res : ', results[device_id])
         dbConnect.sensor_model_pool.query('INSERT INTO ' + results[device_id] + '_act (actuator, status, timestamp) VALUES(?, 0, NOW())', actuator);
-        res.send(200)
+        res.send(200);
     })
 })
 
@@ -138,10 +138,10 @@ router.post("/actuator_control", (req, res)=>{
     console.log("device_id: ", device_id);
     console.log("actuator: ", actuatorName);
     console.log("status: ", actuatorstatus);
-    request.post(address + "/actuator_control/" + device_id + "/actuator/" + actuatorName + "/status/" + actuatorstatus, function(error, response, abc){
+    request.post(address + "/actuator_control/" + device_id + "/actuator/" + actuatorName + "/status/" + actuatorstatus, function(error, response, results){
         if(!error&&response.statusCode==200){
             console.log("post 전송 성공");
-            return abc;
+            return results;
         }
         else{
             console.log("API에러: ", response.statusCode);
