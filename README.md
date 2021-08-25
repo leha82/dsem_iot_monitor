@@ -26,7 +26,7 @@ cmd에서 cd(Change Directory)명령어로 클론폴더 경로 지정
 #### 5-1-3 forever로 실행한 서버 목록 및 로그   
 ##### "forever list"   
 
-### 6. "http://localhost:10203"로 웹페이지 접속(해당 컴퓨터 IP)   
+### 6. "http://localhost:102044"로 웹페이지 접속(해당 컴퓨터 IP)   
 "[현재 컴퓨터 IP] : [현재 현재 할당된 포트번호]" 으로 메인 웹페이지 접속
 
 
