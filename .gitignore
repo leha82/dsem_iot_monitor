@@ -1,3 +1,6 @@
+/DB_info.json
+/README.md
+
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
 
@@ -121,5 +124,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-/DB_info.json
 # End of https://www.toptal.com/developers/gitignore/api/node
