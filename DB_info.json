@@ -1,0 +1,16 @@
+[
+  {
+    "host": "< MySQL Hostname >",
+    "port": "< MySQL Port >",
+    "user": "< MySQL Username >",
+    "password": "< MySQL Password >",
+    "database": "< MySQL Databasename >"
+    }, 
+  {
+    "host": "< MySQL Hostname >",
+    "port": "< MySQL Port >",
+    "user": "< MySQL Username >",
+    "password": "< MySQL Password >",
+    "database": "< MySQL Databasename >"
+  }
+]
