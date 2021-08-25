@@ -12,10 +12,8 @@ router.use(bodyParser.urlencoded({extended:true}));
 // request 모듈 불러오기
 var request = require('request');
 
-const dbConnect = require("./dbConnect.js");
-
 // 서버 주소
-const address = "http://203.234.62.113:10203";
+const address = "http://" + require("ip").address() + ":10204";
 
 router.get("", function (req, res) {
     request(address + "/devices", function(error, response, deviceForm){
@@ -57,9 +55,9 @@ router.get("/mo", function (req, res) {
 router.get("/pc", function (req, res) {
     
     deviceId = req.query.id || req.body.id;
-    request(address + "/recent-data/device/" + deviceId, function(err, response, sensorForm){
+    request(address + "/recent-data/device/" + deviceId, function(error, response, sensorForm){
         
-        if (!err && response.statusCode == 200) {
+        if (!error && response.statusCode == 200) {
             console.log("api 호출 성공: ", sensorForm);
             var sensorData = JSON.parse(sensorForm);
             
@@ -80,7 +78,7 @@ router.post("/actuator_control", (req, res)=>{
     actuatorName = req.body.actuator;
     actuatorstatus = req.body.status;
     
-    request.post(address + "/actuator_control/" + device_id + "/actuator/" + actuatorName + "/status/" + actuatorstatus, function(error, response, results){
+    request.post(address + "/actuator-control/" + device_id + "/actuator/" + actuatorName + "/status/" + actuatorstatus, function(error, response, results){
         if(!error&&response.statusCode==200){
             console.log("post 전송 성공");
             return res.send(200);

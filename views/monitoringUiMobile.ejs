@@ -8,10 +8,17 @@
 
     <title>Mobile Monitoring</title>
 
-    <link href="./semantic.min.css" rel="stylesheet">
-    <script src="jquery-3.1.1.min.js"></script>
-    <script src="./semantic.min.js"></script>
+    <link href="../semantic.min.css" rel="stylesheet">
+    <script src="../jquery-3.1.1.min.js"></script>
+    <script src="../semantic.min.js"></script>
+    
     <script>
+        // 액추에이터 제어할 함수
+//        function temp(){
+//            $.post('/actuator_control', {deviceId:5, actuator:"temp", status:1});
+//        }
+        
+        
         is_start = true
         //스위치 On/Off 이벤트
         $(function() {
@@ -29,12 +36,12 @@
                     $(this).parent().addClass("skyblue");
                     
                     if(!is_start){
-                        $.get('/on', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){})
+                        $.post('/actuator_control', {deviceId:cur_device_id, actuator:cur_actuator, status:1});
                     }
                 } else {
                     $(this).parent().removeClass("skyblue");
                     if(!is_start){
-                        $.get('/off', {deviceId:cur_device_id, actuator:cur_actuator}, function(res){})
+                        $.post('/actuator_control', {deviceId:cur_device_id, actuator:cur_actuator, status:0});
                     }
                 }
             });
@@ -58,8 +65,14 @@
             });
         });
         
-//        7초마다 리로드
+        //뒤로가기
+        function goBack(){
+           window.history.back();
+      }
+        
+        //7초마다 리로드
         setTimeout(function(){
+            $("monitoringUI")
             location.reload();
             console.log("reload");
         }, 7000);
@@ -148,75 +161,85 @@
 </head>
 
 <body>
-    <p>Device: <%="["+deviceId+"]"+devicelist[deviceId][3]%></p>
-    <p1>Mobile Monitoring</p1>
-
-    <div style="border:10px solid black;"> 
+    
+    
+    
+    
+    
+    <p>Device: <%="[" + sensorData.id + "]" + sensorData.name%><button style="height:50px; font-size: 1.3rem;" type="button" class="ui button" onclick=goBack()>Back </button></p>
+    
+    
+    
 <%
-        if(Object.keys(results).indexOf("humidity") != -1) {
+        if(sensorData.data != undefined  && sensorData.data != null){
+%>
+    <p1>Mobile Monitoring</p1><br>
+    <p1 style="text-align: center;">Time: <%= new Date(sensorData.data.timestamp) %></p1>
+<%
+        if(Object.keys(sensorData.data).indexOf("temperature") != -1) {
 %>
         <div id="div3" style="height: auto; width: 100%;">
             <div2 class="humidity" style="position: relative;">
-                <img src="images/humidity2.png" alt="" class="sensor">
+                <img src="/images/humidity2.png" alt="" class="sensor" style='border: 10px solid black'>
                 <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
-                    <p1>humidity: <%=results.humidity%></p1>
+                    <p1>humidity: <%=sensorData.data.humidity%></p1>
                 </div2>
             </div2>
         </div>
 <% 
         }
-        if(Object.keys(results).indexOf("temperature") != -1) {
+        if(Object.keys(sensorData.data).indexOf("temperature") != -1) {
 %>
         <div id="div3" style="height: auto; width: 100%;">
             <div2 style="position: relative;">
-                <img src="images/temperature_white2.png" alt="" class="sensor">
+                <img src="/images/temperature_white2.png" alt="" class="sensor">
                 <div2 style="left: -65px; width: 450px; bottom: 10px; font-size: 1.8em; font-weight: bold; position: absolute;">
-                    <p1>temperature:<br><%=results.temperature%></p1>
+                    <p1>temperature:<br><%=sensorData.data.temperature%></p1>
                 </div2>
             </div2>
         </div>
 <% 
         }
-        if(Object.keys(results).indexOf("light") != -1) {
+        if(Object.keys(sensorData.data).indexOf("light") != -1) {
 %>
         <div id="div3" style="height: auto; width: 100%;">
             <div2 style="position: relative;">
-                <img src="images/Illuminance2.png" alt="" class="sensor">
+                <img src="/images/Illuminance2.png" alt="" class="sensor">
                 <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
-                    <p1>light: <%=results.light%></p1>
+                    <p1>light: <%=sensorData.data.light%></p1>
                 </div2>
             </div2>
         </div>
         
 <% 
         }
-        if(Object.keys(results).indexOf("co2_gas") != -1) {
+        if(Object.keys(sensorData.data).indexOf("co2_gas") != -1) {
 %>
         <div id="div3" style="height: auto; width: 100%;">
             <div2 style="position: relative;">
-                <img src="images/co2_gas_black_2.png" alt="" class="sensor">
+                <img src="/images/co2_gas_black_2.png" alt="" class="sensor">
                 <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
-                    <p1>co2_gas: <%=results.co2_gas%></p1>
+                    <p1>co2_gas: <%=sensorData.data.co2_gas%></p1>
                 </div2>
             </div2>
         </div>
         
 <% 
         }
-        if(Object.keys(results).indexOf("dust") != -1) {
+        if(Object.keys(sensorData.data).indexOf("dust") != -1) {
 %>
         <div id="div3" style="height: auto; width: 100%;">
             <div2 style="position: relative;">
-                <img src="images/fine_dust_black2.png" alt="" class="sensor">
+                <img src="/images/fine_dust_black2.png" alt="" class="sensor">
                 <div2 style="left: -65px; width: 450px; bottom: 20px; font-size: 1.8em; font-weight: bold; position: absolute;">
-                    <p1>dust:<br> <%=results.dust%></p1>
+                    <p1>dust:<br> <%=sensorData.data.dust%></p1>
                 </div2>
             </div2>
         </div>
         
 <% 
         }
-        if(Object.keys(results).indexOf("led") != -1) {
+        if(Object.keys(sensorData.data).indexOf("led") != -1) {
 %>
         <div id="div3" style="height: auto; width: 100%;">
             <div2 style="position: relative;">
@@ -228,56 +251,22 @@
                         <p1></p1>
                     </span>
                     <div id="" class="margin-center vi">
-                        <label id="<%= deviceId %>" class="slideBtn" actuator="led" is_on="<%=item[0]['led']%>">
+                        <label id="<%= sensorData.id %>" class="slideBtn" actuator="led" is_on="<%=sensorData.data.led%>">
                             <input type="checkbox" id='switch' name="complete_yn"><span></span>
                         </label>
                     </div>
                 </div2>
             </div2>
         </div>
-<% 
-        } else{
-%>
-           
 <%
         }
-%>
-    </div>
-    
-    
-    <!--  데이터 확인용  -->
-<%
-//    for (let i in devicelist){
-//        console.log(i);
-//            for(let j in devicelist[i]){
-//                for(let k in devicelist[i][j]){
-//                        if(j==2){
-//                        for(let m in devicelist[i][j][k]){
-//                            
-//                            console.log((m) +"     " + i + "     " + j + "     " +k+ "     " +m+"  번째");
-//                            console.log(devicelist[i][j][k][m] +"     " + i + "     " + j + "     " +k+ "     " +m+"  번째" );
-//                        }
-//                    }
-//                    console.log(devicelist[i][j][k] +"     " + i + "     " + j + "     " +k+"  번째");
-//                }
-//                console.log("-----------------------"+ j +"-------------------");
-//            }
-//        console.log("==================="+i+"번째 디바이스========================\n\n");
-//        }
-%>
+    } else {
+%>      <hr>
+        <p> 값이 존재 하지 않습니다. <p>
+<%    
+    }
+%>     
 
-
-<%
-//    console.log("item: ", item[0]['led'])
-//console.log(devicelist[5][3])
-//console.log("디바 리스트:", devicelist)
-//console.log("디바 아이디:", deviceId)
-//    console.log("\n\n=============================================\n현재 페이지의 디바이스 아이디: "+deviceId+ "\n=============================================\n")
-//    console.log("results: ",results)
-//    console.log("키값:"+Object.keys(results)+"\n 벨류값:"+Object.values(results));
-//    console.log("\n\n\n\n"+results.humidity);
-//    console.log("\n\n\n\n"+Object.keys(results).indexOf("codfdffddfd"));
-%>
     
     
 </body>

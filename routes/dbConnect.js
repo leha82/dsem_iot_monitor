@@ -120,8 +120,7 @@ let getRecentData = function(deviceid, callback){
     });
 }
 
-//수정중
-let getActuator = function(id, actuator, status, callback){
+let setActuator = function(id, actuator, status, callback){
     deviceRegistry_pool.query("SELECT table_name FROM DeviceRegistry.device_list WHERE device_id=" + id + ";", function(error, tableName){
         console.log("Table name: ", tableName[0].table_name);
         sensor_model_pool.query("INSERT INTO " + tableName[0].table_name + "_act (actuator, status, timestamp) VALUES(?, " + status + ", NOW())", actuator, function(err, results){
@@ -141,4 +140,4 @@ module.exports.deviceRegistry_pool = deviceRegistry_pool;
 module.exports.getDeviceInfo = getDeviceInfo;
 module.exports.getLogData = getLogData;
 module.exports.getRecentData = getRecentData;
-module.exports.getActuator = getActuator;
+module.exports.setActuator = setActuator;

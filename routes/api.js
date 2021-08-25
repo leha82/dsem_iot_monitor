@@ -74,11 +74,11 @@ router.get('/recent-data/device/:id', function (req, res) {
     });
 });
 
-router.post('/actuator_control/:id/actuator/:actuator/status/:status', function(req, res){
+router.post('/actuator-control/:id/actuator/:actuator/status/:status', function(req, res){
     var id = req.params.id;
     var actuator = req.params.actuator;
     var status = req.params.status;
-    dbConnect.getActuator(id, actuator, status, function(err, results){
+    dbConnect.setActuator(id, actuator, status, function(err, results){
         if(err){
             console.log("에러: ", err.stack);
             return;

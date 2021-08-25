@@ -21,7 +21,7 @@ console.log("뷰 엔진이 ejs로 설정되었습니다.");
 // app.use("/public", static(path.join(__dirname, "public")));
 
 //===== 서버 변수 설정 및 static으로 public 폴더 설정  =====//
-app.set("port", process.env.PORT || 10203);
+app.set("port", process.env.PORT || 10204);
 
 // json타입으로 파싱하게 설정
 app.use(bodyParser.json());
