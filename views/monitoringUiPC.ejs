@@ -11,8 +11,11 @@
     <link href="../semantic.min.css" rel="stylesheet">
     <script src="../jquery-3.1.1.min.js"></script>
     <script src="../semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-Knob/1.2.13/jquery.knob.min.js"></script>
     
     <script>
+
+
         // 액추에이터 제어할 함수
 //        function temp(){
 //            $.post('/actuator_control', {deviceId:5, actuator:"temp", status:1});
@@ -161,13 +164,7 @@
 </head>
 
 <body>
-    
-    
-    
-    
-    
     <p>Device: <%="[" + sensorData.id + "]" + sensorData.name%><button style="height:50px; font-size: 1.3rem;" type="button" class="ui button" onclick=goBack()>Back </button></p>
-    
     
     
 <%
@@ -260,10 +257,34 @@
             </div2>
         </div>
 <%
-        } 
+        }
+        if(Object.keys(sensorData.data).indexOf("servo_motor") != -1) {
 %>
-    </div>
+        <div id="div3" style="height: auto; width: 100%;">
+            <div2 style="position: relative;">
+                <img src="images/servor2.png" alt="" class="sensor">
+                <div2 style="left: -65px; width: 450px; bottom: 0px; font-size: 1.8em; font-weight: bold; position: absolute;">
+                    <p class="SwiTxt"></p>
+                    <p1>Servor motor:</p1><br>
+                    
+                    <input type="text" value="<%=sensorData.data.servo_motor%>" class="dial">
+                    <script type="text/javascript">
+                        $(".dial").knob({
+                            'angleArc': 180,
+                            'angleOffset': 270,
+                            'min':0,
+                            'max':180,
+                            'height':125,
+                            "fgColor":"#000000",
+                            "thickness":0.3,
+                            'lineCap':'butt'
+                        });
+                    </script>
+                </div2>
+            </div2>
+        </div>
 <% 
+        }
     } else {
 %>      <hr>
         <p> 값이 존재 하지 않습니다. <p>
@@ -271,8 +292,6 @@
     }
 %>     
 
-    
-    
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-# dsem_iot_monitor
+# 2020_Seminar_WebUi
 
 [Window] 서버 실행방법
 ===========
@@ -26,7 +26,7 @@ cmd에서 cd(Change Directory)명령어로 클론폴더 경로 지정
 #### 5-1-3 forever로 실행한 서버 목록 및 로그   
 ##### "forever list"   
 
-### 6. "http://localhost:10204"로 웹페이지 접속(해당 컴퓨터 IP)   
+### 6. "http://localhost:10203"로 웹페이지 접속(해당 컴퓨터 IP)   
 "[현재 컴퓨터 IP] : [현재 현재 할당된 포트번호]" 으로 메인 웹페이지 접속
 
 
@@ -39,8 +39,8 @@ Brackets: http://brackets.io/
 
 ### 2. 클론폴더 경로로 폴더 열기   
 
-### 3. server.js 파일 안에서 서버 관리   
-app.set('port', process.env.PORT || 10204); --> 여기서 포트 번호 변경 가능      
+### 3. server.js 파일 안에서 서버 수정 가능   
+app.set('port', process.env.PORT || 10203); --> 여기서 포트 번호 변경 가능      
 #### 3-1 예시) 포트번호를 14000으로 바꾸고 싶을때   
 ex) app.set('port', process.env.PORT || 14000);   
 

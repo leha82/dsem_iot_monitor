@@ -23,15 +23,6 @@ let DB_info = JSON.parse(fs.readFileSync("DB_info.json").toString());
 let mysql = require("mysql");
 let device_list = new Object();
 
-// MQTT 
-const mqtt = require('mqtt');    // MQTT 모듈 불러오기
-const { parse } = require("path");
-const options = {
-  host: '192.168.0.5',
-  port: 1883
-};
-const client = mqtt.connect(options)   // MQTT Broker와 연결
-
 //===== 뷰 엔진 설정 =====//
 //app.set('views', __dirname + '/views');
 app.set("view engine", "ejs");
@@ -409,10 +400,8 @@ app.get("/pc", function (req, res) {
         var table_name =  db1_res[0]['table_name']
         sensor_model_pool.query("SELECT * FROM " + table_name + " ORDER BY id DESC limit 1", function (er, item, fields) {
             getNowData(deviceId, function (err, results) {
-              
               res.render("monitoringUiPC", {
                 results, devicelist, deviceId, item
-                
               });
             });
         }); 
@@ -444,25 +433,8 @@ app.get("/on", function(req, res) {
     
     actuator = req.query.actuator
     device_id = req.query.deviceId
-    SYSTEM_ID = ""
-
-
-    var sql = 'SELECT * FROM DeviceRegistry.device_list WHERE item_id=?';
-    deviceRegistry_pool.query(sql,device_id, function(err,rows,fields) {
-      if(err){
-        console.log(err);
-      }else{
-        for(var i =0;i<rows.length;i++){
-          SYSTEM_ID = rows[i].system_id
-          console.log(rows[i].system_id);
-        }
-        TOPIC = SYSTEM_ID + "/actuator"
-        console.log("topic", TOPIC)
-
-        client.publish(TOPIC, actuator + ":" + 1 , {qos:0});
-      }
-    });
-
+    
+    
     deviceRegistry_pool.query('SELECT item_id, table_name FROM device_list', function(err, results, fields){
         
         results = results.reduce((result, item, index, array) => {
@@ -475,30 +447,14 @@ app.get("/on", function(req, res) {
 
         res.send(200)
     })
+    
 })
 
 app.get("/off", function(req, res) {
     actuator = req.query.actuator
     device_id = req.query.deviceId
-    SYSTEM_ID = ""
     
-
-    var sql = 'SELECT * FROM DeviceRegistry.device_list WHERE item_id=?';
-    deviceRegistry_pool.query(sql,device_id, function(err,rows,fields) {
-      if(err){
-        console.log(err);
-      }else{
-        for(var i =0;i<rows.length;i++){
-          SYSTEM_ID = rows[i].system_id
-          console.log(rows[i].system_id);
-        }
-        TOPIC = SYSTEM_ID + "/actuator"
-        console.log("topic", TOPIC)
-
-        client.publish(TOPIC, actuator + ":" + 0 , {qos:0});
-      }
-    });
-
+    
     deviceRegistry_pool.query('SELECT item_id, table_name FROM device_list', function(err, results, fields){
         
         results = results.reduce((result, item, index, array) => {

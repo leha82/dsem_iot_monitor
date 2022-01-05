@@ -13,10 +13,7 @@
 
 
     <script>
-        //뒤로가기
-        function goBack(){
-           window.history.back();
-      }
+    
     </script>
     
     <!--폰트스타일-->
@@ -40,16 +37,12 @@
 </head>
 
 <body>
-    
-    
     <div class="ui sizer vertical segment">
-        <div class="ui huge header"><%= logData.name%> Log <button type="button" class="ui button" onclick=goBack()>Back </button></div>
+        <div class="ui huge header"><%= devicelist[deviceId][3]%> Log</div>
         <p></p>
     </div>
 <%
-    if(logData.log.length != 0){
-        // console.log("안들어가지 ㅇㅇ");
-        // console.log(typeof(logData.log));
+    if(results[0]!=undefined || results[0]!=null){
 %>
     <table class="ui striped table">
         <thead>
@@ -58,7 +51,7 @@
                 <!--키에 따른 열 추가 -->
                 <th>timestamp</th>
 <%
-                var key = Object.keys(logData.log[0]);
+                var key = Object.keys(results[0]);
                 for(let m in key){
                     
                     if(key[m] != null && key[m] !="timestamp"){
@@ -72,9 +65,9 @@
 
 <!--로그에 따른 행 추가(value)-->
 <%
-            for(let i in logData.log){
-                var key = Object.keys(logData.log[i])
-                var value = Object.values(logData.log[i])
+            for(let i in results){
+                var key = Object.keys(results[i])
+                var value = Object.values(results[i])
 %>
             
                 <tr>
@@ -82,13 +75,7 @@
                     for(var j=0; j<key.length; j++){
                         if(key.indexOf() != null){
 %>
-                            <td>
-                                <% if(j == 0) { %>
-                                <%= new Date(value[j]);%>
-                                <%}else { %>
-                                <%= value[j]%>
-                                <% } %>
-                            </td>
+                            <td><%=value[j]%></td>
 <%
                         }
                     }   
@@ -100,8 +87,29 @@
         </thead>
         <tbody id="my-tbody"></tbody>
     </table>
+    
+    
+    <!-- 로그값들 -->
+    <%// console.log(results)%>
+    <!-- 인덱스값 -->
+    <%// console.log("\n\n"+Object.keys(results))%>
+    <!-- 해당 시간대 키, 값 넣기 -->
+    <%// var a = Object.keys(results[15])%>
+    <%// var b = Object.values(results[15])%>
+    <!-- 객체 a 키값-->
+    <%// console.log((a)+"\n\n")%>
+    <!-- 그 시간대 벨류 값 -->
+    <%// console.log((b)+"\n\n")%>
+    <%// for(var i=0; i<a.length; i++){
+      //  console.log(a[i]);
+    //} %>
+
+    <%// console.log(a[0])%>
+    
+    
+    
 <%
-    } else{
+    }else{
 %>
     <p>값이 존재 하지 않습니다.</p>
 <%
